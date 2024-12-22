@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
+import { ref, set } from "firebase/database";
+import { database } from '../firebase'; // Ensure Firebase is correctly configured and imported
 import PatientInfoForm from './PatientInfoForm';
 import './PneumoniaMLStyles.css'; 
+
 const PneumoniaMLPage = () => {
     const [patientInfo, setPatientInfo] = useState(null);
     const [image, setImage] = useState(null);
@@ -11,6 +14,21 @@ const PneumoniaMLPage = () => {
         setImage(file);
     };
 
+    const handlePatientInfoSubmit = async (info) => {
+        // Save patient info under the "Pneumonia" category in the database
+        try {
+            const dbRef = ref(database, "Pneumonia"); // Overwrite existing data in "Pneumonia" category
+            await set(dbRef, {
+                name: info.name,
+                age: info.age
+            });
+            setPatientInfo(info); // Update local state with patient info
+            console.log("Patient information saved successfully under 'Pneumonia' category!");
+        } catch (error) {
+            console.error("Error saving patient information:", error);
+        }
+    };
+
     const handleSubmit = () => {
         setResult("Pneumonia analysis result would appear here");
     };
@@ -19,7 +37,7 @@ const PneumoniaMLPage = () => {
         <div className="pneumonia-container">
             <h1>Pneumonia Detection Model</h1>
             {!patientInfo ? (
-                <PatientInfoForm onInfoSubmit={setPatientInfo} />
+                <PatientInfoForm onInfoSubmit={handlePatientInfoSubmit} />
             ) : (
                 <div className="content-area">
                     <div className="patient-details">
