@@ -6,6 +6,7 @@ import CKDMLPage from "./Components/CKDMLPage";
 import "./App.css";
 import Home from "./pages/Home/Home";
 import QRPage from './pages/QRPage/QRPage';
+import Assistant from './pages/Assistant/Assistant';
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Route path="/pneumonia" element={<PneumoniaMLPage />} />
         <Route path="/ckd" element={<CKDMLPage />} />
         <Route path="/qr/:type" element={<QRPage />} />
+        <Route path="/assistant" element={<Assistant />} />
       </Routes>
     </Router>
   );
