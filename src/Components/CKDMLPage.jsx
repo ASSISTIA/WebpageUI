@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { ref, set } from "firebase/database";
-import { database } from '../firebase'; // Ensure Firebase is correctly configured and imported
+import { database } from '../firebase'; 
 import PatientInfoForm from './PatientInfoForm';
 import './CKDMLStyles.css';  
 
@@ -24,13 +24,12 @@ const CKDMLPage = () => {
 
     const handlePatientInfoSubmit = async (info) => {
         try {
-            // Save patient info under the "CKD" category in the database
-            const dbRef = ref(database, "CKD"); // Overwrite existing data in "CKD" category
+            const dbRef = ref(database, "CKD"); 
             await set(dbRef, {
                 name: info.name,
                 age: info.age
             });
-            setPatientInfo(info); // Update local state with patient info
+            setPatientInfo(info); 
             console.log("Patient information saved successfully under 'CKD' category!");
         } catch (error) {
             console.error("Error saving patient information:", error);
@@ -43,7 +42,6 @@ const CKDMLPage = () => {
         setError(null);
     
         try {
-            // Validate inputs before sending
             if (!inputs.hemoglobin || !inputs.specific_gravity) {
                 throw new Error('Please fill in all required fields');
             }
@@ -54,7 +52,6 @@ const CKDMLPage = () => {
                 hypertension: inputs.hypertension === 'yes' ? 1 : 0
             };
     
-            // Direct API call without cors-anywhere
             const response = await fetch('https://ckd-prediction-s8qx.onrender.com/predict', {
                 method: 'POST',
                 headers: {
@@ -69,6 +66,19 @@ const CKDMLPage = () => {
     
             const data = await response.json();
             setResult(data);
+
+            const dbRef = ref(database, "CKD");
+            await set(dbRef, {
+                name: patientInfo.name,
+                age: patientInfo.age,
+                
+                prediction: {
+                    timestamp: new Date().toISOString(),
+                    inputs: apiData,
+                    result: data
+                }
+            });
+
         } catch (err) {
             setError(`Failed to get prediction: ${err.message}`);
             console.error('Error:', err);
