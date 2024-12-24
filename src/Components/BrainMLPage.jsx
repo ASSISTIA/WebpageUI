@@ -2,13 +2,15 @@ import React, { useState } from 'react';
 import { Button, TextField, Typography, Box, Paper, InputAdornment } from '@mui/material';
 import ImageIcon from '@mui/icons-material/Image';
 import { ref, set } from "firebase/database";
-import { database } from '../firebase'; // Ensure Firebase configuration is correctly imported
+import { database } from '../firebase'; 
 import PatientInfoForm from './PatientInfoForm';
 
 const BrainMLPage = () => {
     const [patientInfo, setPatientInfo] = useState(null);
     const [image, setImage] = useState(null);
     const [result, setResult] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
@@ -16,22 +18,59 @@ const BrainMLPage = () => {
     };
 
     const handlePatientInfoSubmit = async (info) => {
-        // Save patient info under the "BrainTumor" category in the database
         try {
-            const dbRef = ref(database, "BrainTumor"); // Overwrites data in the "BrainTumor" node
+            const dbRef = ref(database, "BrainTumor"); 
             await set(dbRef, {
                 name: info.name,
                 age: info.age,
             });
-            setPatientInfo(info); // Update local state with patient info
+            setPatientInfo(info); 
             console.log("Patient information saved successfully under 'BrainTumor'!");
         } catch (error) {
             console.error("Error saving patient information:", error);
         }
     };
 
-    const handleSubmit = () => {
-        setResult("Brain scan analysis result would appear here");
+    const handleSubmit = async () => {
+        setLoading(true);
+        setError(null);
+
+        try {
+            if (!image) {
+                throw new Error('Please select an image');
+            }
+
+            const formData = new FormData();
+            formData.append('file', image);
+
+            const response = await fetch('https://braintumor-rsk8.onrender.com/predict/brain', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error(`API error: ${response.status}`);
+            }
+
+            const data = await response.json();
+            setResult(data);
+
+            const dbRef = ref(database, "BrainTumor");
+            await set(dbRef, {
+                name: patientInfo.name,
+                age: patientInfo.age,
+                prediction: {
+                    timestamp: new Date().toISOString(),
+                    result: data
+                }
+            });
+
+        } catch (err) {
+            setError(`Failed to analyze image: ${err.message}`);
+            console.error('Error:', err);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -68,17 +107,31 @@ const BrainMLPage = () => {
                             variant="contained"
                             color="primary"
                             onClick={handleSubmit}
+                            disabled={loading}
                             fullWidth
                         >
-                            Analyze Image
+                            {loading ? 'Analyzing...' : 'Analyze Image'}
                         </Button>
+                    )}
+                    {error && (
+                        <Paper elevation={3} sx={{ p: 2, mt: 2, bgcolor: '#ffebee' }}>
+                            <Typography color="error">⚠️ {error}</Typography>
+                        </Paper>
                     )}
                     {result && (
                         <Paper elevation={3} sx={{ p: 2, mt: 2 }}>
                             <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
                                 Analysis Result:
                             </Typography>
-                            <Typography>{result}</Typography>
+                            <Typography>
+                                Classification: {result.prediction || result.class_name}
+                            </Typography>
+                            <Typography>
+                                Confidence: {((result.confidence || result.probability || 0) * 100).toFixed(2)}%
+                            </Typography>
+                            <Typography variant="caption" sx={{ display: 'block', mt: 1, color: 'text.secondary' }}>
+                                Raw response: {JSON.stringify(result)}
+                            </Typography>
                         </Paper>
                     )}
                 </Box>
