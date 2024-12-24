@@ -24,7 +24,7 @@ const CKDMLPage = () => {
 
     const handlePatientInfoSubmit = async (info) => {
         try {
-            const dbRef = ref(database, "CKD"); 
+            const dbRef = ref(database, "Kidney"); 
             await set(dbRef, {
                 name: info.name,
                 age: info.age
@@ -67,16 +67,12 @@ const CKDMLPage = () => {
             const data = await response.json();
             setResult(data);
 
-            const dbRef = ref(database, "CKD");
+            const dbRef = ref(database, "Kidney");
             await set(dbRef, {
                 name: patientInfo.name,
                 age: patientInfo.age,
+                result: data.message
                 
-                prediction: {
-                    timestamp: new Date().toISOString(),
-                    inputs: apiData,
-                    result: data
-                }
             });
 
         } catch (err) {

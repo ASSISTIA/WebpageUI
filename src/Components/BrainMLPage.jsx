@@ -59,10 +59,7 @@ const BrainMLPage = () => {
             await set(dbRef, {
                 name: patientInfo.name,
                 age: patientInfo.age,
-                prediction: {
-                    timestamp: new Date().toISOString(),
-                    result: data
-                }
+                result: data.prediction || data.class_name
             });
 
         } catch (err) {
