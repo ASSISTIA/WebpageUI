@@ -40,6 +40,8 @@ const Home = () => {
   const handleNavigation = (name) => {
     switch (name.toLowerCase()) {
       case 'heart':
+        navigate('/heart-beat');
+        break;
       case 'brain':
       case 'kidney':
       case 'pneumonia':
