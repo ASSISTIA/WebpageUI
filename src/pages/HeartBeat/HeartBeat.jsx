@@ -10,7 +10,7 @@ const HeartBeat = () => {
 
   const fetchSensorData = async () => {
     try {
-      const response = await axios.get("http://<RPI_IP>:5000/data");
+      const response = await axios.get("http://192.168.250.132:5001/data");
       setHeartbeat(response.data.heartbeat);
       setSpo2(response.data.spo2);
       setGlucose(response.data.glucose);
@@ -43,7 +43,7 @@ const HeartBeat = () => {
               <strong>SpO₂:</strong> {spo2} %
             </p>
             <p className="data-text">
-              <strong>Glucose:</strong> {glucose} %
+              <strong>Glucose:</strong> {glucose} mg/dL
             </p>
           </div>
         )}
