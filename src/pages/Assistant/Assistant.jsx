@@ -3,12 +3,40 @@ import styles from './Assistant.module.css';
 
 const Assistant = () => {
   const [audioData, setAudioData] = useState(new Uint8Array(20));
+  const [transcript, setTranscript] = useState('');
+  const [isListening, setIsListening] = useState(false);
 
   useEffect(() => {
     let audioContext;
     let analyser;
     let dataArray;
     let animationId;
+    let recognition;
+
+    const initSpeechRecognition = () => {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        console.error('Speech recognition not supported');
+        return;
+      }
+
+      recognition = new SpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+
+      recognition.onstart = () => setIsListening(true);
+      recognition.onend = () => setIsListening(false);
+      
+      recognition.onresult = (event) => {
+        const transcript = Array.from(event.results)
+          .map(result => result[0])
+          .map(result => result.transcript)
+          .join('');
+        setTranscript(transcript);
+      };
+
+      recognition.start();
+    };
 
     const initAudio = async () => {
       try {
@@ -52,10 +80,12 @@ const Assistant = () => {
     };
 
     initAudio();
+    initSpeechRecognition();
 
     return () => {
       if (animationId) cancelAnimationFrame(animationId);
       if (audioContext) audioContext.close();
+      if (recognition) recognition.stop();
     };
   }, []);
 
@@ -74,6 +104,13 @@ const Assistant = () => {
             }}
           />
         ))}
+      </div>
+      
+      <div className={styles.transcriptContainer}>
+        <p>{transcript || 'Speak something...'}</p>
+        <div className={styles.status}>
+          {isListening ? 'Listening...' : 'Not listening'}
+        </div>
       </div>
     </div>
   );
