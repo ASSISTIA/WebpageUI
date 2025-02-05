@@ -1,18 +1,86 @@
-.container {
+.touchContainer {
+  background-color: var(--primary-color);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  padding: 2rem;
+  font-family: 'Arial', sans-serif;
 }
 
-.qrContainer {
-  margin-top: 2rem;
-  padding: 2rem;
-  border: 1px solid #ccc;
-  border-radius: 8px;
+.pageTitle {
+  display: flex;
+  align-items: center;
+  background-color: var(--secondary-color);
+  padding: 10px;
+  position: relative;
+}
+
+.pageTitle h1 {
+  flex-grow: 1;
+  text-align: center;
+  margin: 0;
+  color: white;
+  font-size: 18px;
+}
+
+.backButton {
+  position: relative;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.contentWrapper {
+  display: flex;
+  flex-grow: 1;
+  overflow: hidden;
+}
+
+.testList {
+  width: 50%;
+  background-color: rgba(255,255,255,0.1);
+  padding: 10px;
+  overflow-y: auto;
+}
+
+.testList h2 {
+  text-align: center;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.testItem {
+  display: flex;
+  justify-content: space-between;
+  background-color: rgba(255,255,255,0.2);
+  color: white;
+  padding: 8px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+}
+
+.testDuration {
+  color: var(--touch-highlight);
+}
+
+.qrSection {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255,255,255,0.3);
+  padding: 20px;
 }
 
 .qrCode {
   width: 200px;
   height: 200px;
-} 
+  object-fit: contain;
+}
+
+.footer {
+  background-color: var(--touch-highlight);
+  color: white;
+  text-align: center;
+  font-size: x-large;
+}

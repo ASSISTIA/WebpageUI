@@ -1,36 +1,69 @@
-.container {
+
+.touchContainer {
+  background-color: var(--primary-color);
   display: flex;
-  height: 100vh;
-  width: 100vw;
-  background-color: #000;
-  overflow-y: hidden;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  overflow: hidden;
+  font-family: 'Arial', sans-serif;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
-.menu {
+.header {
+  text-align: center;
+  padding: 10px;
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.touchGrid {
   display: grid;
-  row-gap: 50px;
-  column-gap: 50px;
   grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  padding: 10px;
+  flex-grow: 1;
 }
 
-.menuOption {
+.touchModule {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: #333;
-  padding: 40px;
-  border-radius: 20px;
+  justify-content: center;
+  background-color: rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 10px;
+  transition: all 0.2s ease;
+  cursor: pointer;
 }
 
-.icon {
-  height: 100px;
-  width: 90px;
-  margin-bottom: 15px;
+.touchModule:active, .activeModule {
+  background-color: var(--touch-highlight);
+  transform: scale(0.95);
 }
 
-.menuTitle {
-  font-size: 25px;
-  color: #fff;
+.touchIcon {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  margin-bottom: 5px;
+}
+
+.moduleName {
+  color: white;
+  font-size: 12px;
+  text-align: center;
+}
+
+@media (max-height: 480px) {
+  .touchContainer {
+    height: 100vh;
+  }
 }
