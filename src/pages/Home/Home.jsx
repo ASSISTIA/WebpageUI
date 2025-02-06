@@ -57,7 +57,10 @@ const Home = () => {
         navigate('/assistant');
         break;
       case 'gluco pro':
-        navigate('/heart-beat');
+        navigate('/gluco-pro');
+        break;
+      default:
+        console.warn(`Navigation not implemented for: ${name}`);
         break;
     }
   };
@@ -65,7 +68,7 @@ const Home = () => {
   return (
     <div className={styles.touchContainer}>
       <div className={styles.header}>
-        <h1>Medical Modules</h1>
+        <h1><span className={styles.big}>A</span><span className={styles.small}>SSISTIA</span></h1>
       </div>
       <div className={styles.touchGrid}>
         {menuOptions.map((option) => (

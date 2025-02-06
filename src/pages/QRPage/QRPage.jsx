@@ -9,7 +9,7 @@ const QRPage = () => {
   const [qrUrl, setQrUrl] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const [displayType, setDisplayType] = useState('');
   const testDetails = {
     brain: [{ id: 1, name: "Brain MRI or CT Scan Image" }],
     kidney: [
@@ -23,6 +23,21 @@ const QRPage = () => {
       { id: 2, name: "Detection: Blood Pressure" },
     ],
   };
+
+  const getDisplayName = useCallback((type) => {
+    switch(type) {
+      case 'brain':
+        return 'Brain Tumor';
+      case 'kidney':
+        return 'Chronic Kidney Disease';
+      default:
+        return type;
+    }
+  }, []);
+
+  useEffect(() => {
+    setDisplayType(getDisplayName(type));
+  }, [type, getDisplayName]);
 
   const generateQRCode = useCallback(() => {
     try {
@@ -54,7 +69,7 @@ const QRPage = () => {
         <button onClick={handleBack} className={styles.backButton}>
           <FaHome />
         </button>
-        <h1>{type.charAt(0).toUpperCase() + type.slice(1)} Analysis</h1>
+        <h1><span className={styles.big}>{displayType.charAt(0).toUpperCase()}</span><span className={styles.small}>{displayType.slice(1).toUpperCase()}</span> <span className={styles.small}>ANALYSIS</span></h1>
       </div>
 
       <div className={styles.contentWrapper}>
