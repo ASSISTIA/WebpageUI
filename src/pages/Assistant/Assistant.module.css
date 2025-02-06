@@ -1,50 +1,44 @@
 .container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    background-color: #000;
-    padding: 30px;
-    box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #000;
+  padding: 30px;
+  box-sizing: border-box;
 }
-  
+
 .waveContainer {
-    display: flex;
-    align-items: center;
-    gap: 0;
-    height: 360px;
-    width: 100%;
-    max-width: 1200px;
-    justify-content: space-between;
-}
-  
-.line {
-    background-color: #007AFF;
-    transition: transform 0.05s linear;
-    box-shadow: 0 0 4px rgba(0, 122, 255, 0.8);
-}
-  
-.endpoint {
-    width: 10px;
-    height: 8px;
-    background-color: #007AFF;
-    border-radius: 50%;
-    box-shadow: 0 0 15px rgba(0, 122, 255, 0.7);
-}
-
-/* while testing this voice to test pls uncomment this 
-
-*/
-/*.transcriptContainer {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  height: 100px;
+  width: 100%;
+  max-width: 1200px;
+  justify-content: space-between;
   margin-top: 20px;
+}
+
+.line {
+  background-color: #007AFF;
+  transition: transform 0.05s linear;
+  box-shadow: 0 0 4px rgba(0, 122, 255, 0.8);
+}
+/* while testing this voice to test pls uncomment this */
+
+.transcriptContainer {
+  display: none;
+  /* margin-top: 20px;
   padding: 20px;
   background-color: rgba(255, 255, 255, 0.1);
   border-radius: 8px;
   min-height: 100px;
+  color: #fff; */
 }
 
 .status {
   margin-top: 10px;
   font-size: 0.8em;
   color: #666;
-} */
+}
