@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import styles from './QRPage.module.css';
+import { FaHome } from "react-icons/fa";
 
 const QRPage = () => {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ const QRPage = () => {
     pneumonia: [
       { id: 1, name: "Chest X-Ray Image" }
     ],
-    heart: [
+    diabetes: [
       { id: 1, name: "Detection: ECG Reading" },
       { id: 2, name: "Detection: Blood Pressure" }
     ]
@@ -54,23 +55,23 @@ const QRPage = () => {
   return (
     <div className={styles.touchContainer}>
       <div className={styles.pageTitle}>
-        <button onClick={handleBack} className={styles.backButton}>←</button>
-        <h1>{type.charAt(0).toUpperCase() + type.slice(1)} Analysis Requirements</h1>
+        <button onClick={handleBack} className={styles.backButton}><FaHome /></button>
+        <h1>{type.charAt(0).toUpperCase() + type.slice(1)} Analysis</h1>
       </div>
       
       <div className={styles.contentWrapper}>
         <div className={styles.testList}>
-          <h2>Required Tests & Detection</h2>
+          <h2>Required Values</h2>
           {testDetails[type]?.map((test) => (
             <div key={test.id} className={styles.testItem}>
               <span>
-                {test.name.toLowerCase().includes('detection') 
-                  ? test.name 
-                  : `Required: ${test.name.replace('Required: ', '')}`}
+                 {test.name}
               </span>
             </div>
           ))}
         </div>
+
+        <div className={styles.space}></div>
         
         <div className={styles.qrSection}>
           {isLoading ? (
@@ -84,12 +85,13 @@ const QRPage = () => {
               className={styles.qrCode} 
             />
           )}
+          <div className={styles.footer}>
+        <p>Scan QR </p>
+      </div>
         </div>
       </div>
       
-      <div className={styles.footer}>
-        <p>Scan QR for instant diagonosis</p>
-      </div>
+      
     </div>
   );
 };

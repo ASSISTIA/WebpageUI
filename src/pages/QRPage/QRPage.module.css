@@ -2,32 +2,40 @@
   background-color: var(--primary-color);
   display: flex;
   flex-direction: column;
-  font-family: 'Arial', sans-serif;
+  font-family: "Times New Roman", Times, serif;
+  padding-left: 5%;
+  padding-right: 5%;
+  padding-bottom: 5%;
 }
-
 .pageTitle {
   display: flex;
   align-items: center;
-  background-color: var(--secondary-color);
-  padding: 10px;
-  position: relative;
+  justify-content: flex-start;
+  overflow: hidden;
 }
 
-.pageTitle h1 {
-  flex-grow: 1;
-  text-align: center;
+.pageTitle h1{
+  color: var(--text-color);
+  font-size: 4.5vw;
+  padding: 3%;
   margin: 0;
-  color: white;
-  font-size: 18px;
+  white-space: nowrap;
+  width: 90%;
+  height: 10%;
 }
 
-.backButton {
-  position: relative;
-  background: none;
-  border: none;
-  color: white;
-  font-size: 20px;
-  cursor: pointer;
+.backButton{
+  width: 10%;
+  height: 10%;
+  background-color: var(--primary-color);
+  font-size: 4.5vw;
+  color: var(--text-color);
+  padding: 3%;
+}
+
+.backButton:hover {
+  background-color: var(--primary-color);
+  color: var(--text-color);
 }
 
 .contentWrapper {
@@ -37,50 +45,57 @@
 }
 
 .testList {
-  width: 50%;
-  background-color: rgba(255,255,255,0.1);
-  padding: 10px;
+  width: 60%;
   overflow-y: auto;
 }
 
 .testList h2 {
   text-align: center;
-  color: white;
-  margin-bottom: 10px;
+  color: var(--text-color);
+  font-size: 3.5vw;
+  margin: 3% 0;
 }
 
 .testItem {
   display: flex;
   justify-content: space-between;
-  background-color: rgba(255,255,255,0.2);
-  color: white;
-  padding: 8px;
-  margin-bottom: 5px;
-  border-radius: 5px;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: var(--text-color);
+  padding: 3%;
+  margin: 2% 5%;
+  border-radius: 10px;
+  font-size: 2.5vw;
 }
 
 .testDuration {
-  color: var(--touch-highlight);
+  color: var(--text-color);
+  font-weight: bold;
+}
+.space{
+  width:5%;
 }
 
 .qrSection {
-  width: 50%;
+  width: 30%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: rgba(255,255,255,0.3);
-  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 2%;
 }
 
 .qrCode {
-  width: 200px;
-  height: 200px;
+  width: 25vw;
+  height: auto;
   object-fit: contain;
+  
 }
 
 .footer {
-  background-color: var(--touch-highlight);
-  color: white;
+  color: var(--text-color);
   text-align: center;
-  font-size: x-large;
+  font-size: 2vw;
 }

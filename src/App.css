@@ -2,9 +2,9 @@
   --screen-width: 320px;
   --screen-height: 480px;
   --aspect-ratio: 8/5;
-  --primary-color: #089BAB;   
-  --secondary-color: #5DC1B9; 
-  --touch-highlight: #40E0D0; 
+  --primary-color: #4A90E2;   
+  --secondary-color: #FFFFFF; 
+  --text-color: #000000; 
 }
 
 body, html {
@@ -48,10 +48,6 @@ h1 {
   text-decoration: none;
   font-size: 14px; 
   font-weight: medium;
-}
-
-.link:hover, a:hover {
-  color: #009688; 
 }
 
 .container.mx-auto {
