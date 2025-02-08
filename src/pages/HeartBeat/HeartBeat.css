@@ -1,85 +1,189 @@
+/* Aspect Ratio Container */
 .dashboard-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background-color: #1e1e2f;
-  color: #ffffff;
-  font-family: Arial, sans-serif;
-  padding: 20px;
+  width: 100vw;
+  height: 100vh;
+  background: white;
 }
 
-.heart-animation-container {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.heart {
-  width: 100px;
-  height: 100px;
-  background-color: red;
-  position: relative;
-  transform: rotate(-45deg);
-  animation: beat 1s infinite;
-}
-
-.heart::before,
-.heart::after {
-  content: "";
-  width: 100px;
-  height: 100px;
-  background-color: red;
-  border-radius: 50%;
-  position: absolute;
-}
-
-.heart::before {
-  top: -50px;
-  left: 0;
-}
-
-.heart::after {
-  left: 50px;
+/* Inner container to maintain aspect ratio */
+.aspect-ratio-container {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
   top: 0;
+  left: 0;
+  background: white;
 }
 
-@keyframes beat {
-  0%,
-  100% {
-    transform: scale(1) rotate(-45deg);
-  }
-  50% {
-    transform: scale(1.2) rotate(-45deg);
-  }
+/* Header Styles */
+.header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 15%;
+  
+  background: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
 }
 
-.data-display {
+.pageTitle {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 2%;
+}
+
+.backButton {
+  height: 100%;
+  aspect-ratio: 1/1;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: min(4vh, 4vw);
+  color: #333;
+  transition: color 0.3s ease;
+}
+
+.backButton:hover {
+  color: #666;
+}
+
+.header h1 {
+  font-size: min(4vh, 4vw);
+  color: #333;
+  white-space: nowrap;
+}
+
+/* Dashboard Content */
+.dashboard-content {
+  position: absolute;
+  top: 15%;
+  left: 0;
+  width: 100%;
+  height: 85%;
+  display: flex;
+  padding: 2%;
+}
+
+/* Visual Section */
+.visual-section {
   flex: 1;
-  padding: 20px;
-  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2%;
+  background: #f8f9fa;
+  border-radius: 10px;
+  margin-right: 2%;
 }
 
-h1 {
-  font-size: 2.5rem;
-  margin-bottom: 20px;
+.heart-icon {
+  font-size: min(20vh, 20vw);
+  color: #dc3545;
+  animation: pulse 1.2s ease-in-out infinite;
 }
 
-.loading-text {
-  font-size: 1.5rem;
-  color: #ccc;
+/* Metrics Section */
+.metrics-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4%;
+  height: 100%;
 }
 
-.data-container {
-  margin-top: 20px;
+.metric-card {
+  flex: 1;
+  background: white;
+  border-radius: 10px;
+  padding: 4%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
 }
 
-.data-text {
-  font-size: 2rem;
-  margin: 10px 0;
+.metric-content {
+  width: 100%;
 }
 
-.data-text strong {
-  color: #ff4c4c;
+.metric-title {
+  font-size: min(2.5vh, 2.5vw);
+  color: #666;
+  margin-bottom: 2%;
+}
+
+.metric-value {
+  display: flex;
+  align-items: center;
+  gap: 3%;
+  font-size: min(4vh, 4vw);
+  color: #333;
+}
+
+.metric-value svg {
+  font-size: min(3vh, 3vw);
+  color: #666;
+}
+
+.metric-unit {
+  font-size: min(2vh, 2vw);
+  color: #666;
+}
+
+/* Loading and Error States */
+.loading-container,
+.error-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2vh;
+}
+
+.loading-spinner {
+  width: min(10vh, 10vw);
+  height: min(10vh, 10vw);
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #333;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+/* Animations */
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Force landscape orientation message */
+@media screen and (orientation: portrait) {
+  .dashboard-container::before {
+    content: "Please rotate your device to landscape mode";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    font-size: 4vw;
+    padding: 20px;
+    text-align: center;
+  }
 }
