@@ -69,8 +69,7 @@ const CKDMLPage = () => {
 
             const dbRef = ref(database, "Kidney");
             await set(dbRef, {
-                name: patientInfo.name,
-                age: patientInfo.age,
+                ...patientInfo,
                 result: data.message
             });
 
