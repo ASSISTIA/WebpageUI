@@ -2,9 +2,9 @@
   --screen-width: 320px;
   --screen-height: 480px;
   --aspect-ratio: 8/5;
-  --primary-color: #4A90E2;   
-  --secondary-color: #FFFFFF; 
-  --text-color: #000000; 
+  --primary-color: #0077C8;   
+  --secondary-color: #F5F7FA; 
+  --text-color: #2C3E50; 
 }
 
 body, html {

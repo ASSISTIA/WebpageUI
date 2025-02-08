@@ -1,8 +1,9 @@
+/* QRPage.module.css */
 .touchContainer {
-  background-color: var(--primary-color);
+  background: linear-gradient(135deg, var(--primary-color), #2196F3);
   display: flex;
   flex-direction: column;
-  font-family: "Times New Roman", Times, serif;
+  font-family: 'Roboto', 'Arial', sans-serif;
   padding-left: 5%;
   padding-right: 5%;
   padding-bottom: 5%;
@@ -13,14 +14,19 @@
   -webkit-user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
+
 .pageTitle {
   display: flex;
   align-items: center;
   justify-content: flex-start;
   overflow: hidden;
+  background-color: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  margin: 15px 0;
+  box-shadow: 0 2px 4px var(--shadow-color);
 }
 
-.pageTitle h1{
+.pageTitle h1 {
   color: var(--text-color);
   font-size: 4.5vw;
   padding: 3%;
@@ -29,41 +35,42 @@
   width: 90%;
   height: 10%;
 }
-.header h1 {
-  margin: 0;
-  font-size: 18px;
-  font-weight: bold;
-  
-}
-.big{
+
+.big {
   margin: 0;
   font-size: 4vw;
-  font-weight: bold;
-}
-.small{
-  margin: 0;
-  font-size: 2.5vw;
-  font-weight: bold;
+  font-weight: 700;
+  color: var(--primary-color);
 }
 
-.backButton{
+.small {
+  margin: 0;
+  font-size: 2.5vw;
+  font-weight: 600;
+  color: var(--accent-color);
+}
+
+.backButton {
   width: 10%;
   height: 10%;
-  background-color: var(--primary-color);
+  background-color: transparent;
   font-size: 4.5vw;
-  color: var(--text-color);
+  color: var(--primary-color);
   padding: 3%;
+  border: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
 }
 
 .backButton:hover {
-  background-color: var(--primary-color);
-  color: var(--text-color);
+  color: var(--accent-color);
 }
 
 .contentWrapper {
   display: flex;
   flex-grow: 0;
   overflow: hidden;
+  gap: 15px;
 }
 
 .testList {
@@ -71,35 +78,46 @@
   min-height: 30%;
   padding: 2%;
   overflow-y: auto;
-  border: 1px solid rgb(0, 0, 0);
-  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.95);
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 4px 6px var(--shadow-color);
 }
 
 .testList h2 {
   text-align: center;
-  color: var(--text-color);
+  color: var(--primary-color);
   font-size: 4vw;
   margin: 3% 0;
+  font-weight: 600;
 }
 
 .testItem {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: var(--background-light);
   color: var(--text-color);
   padding: 3%;
   margin: 2% 5%;
   border-radius: 8px;
   font-size: 3vw;
+  box-shadow: 0 2px 4px var(--shadow-color);
+  transition: transform 0.2s ease;
+}
+
+.testItem:hover {
+  transform: translateX(5px);
+  background-color: rgba(76, 175, 80, 0.1);
 }
 
 .testDuration {
-  color: var(--text-color);
-  font-weight: bold;
+  color: var(--primary-color);
+  font-weight: 500;
 }
-.space{
-  width:5%;
+
+.space {
+  width:1%;
 }
 
 .qrSection {
@@ -110,23 +128,32 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.95);
   border-radius: 15px;
+  box-shadow: 0 4px 6px var(--shadow-color);
 }
-.qrSection p{
+
+.qrSection p {
   margin-top: 1px;
   font-size: 3vw;
+  color: var(--primary-color);
+  font-weight: 500;
 }
 
 .qrCode {
   width: 25vw;
   height: auto;
   object-fit: contain;
-  
+  padding: 10px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px var(--shadow-color);
 }
 
 .footer {
-  color: var(--text-color);
+  color: var(--primary-color);
   text-align: center;
   font-size: 2vw;
+  margin-top: 10px;
+  font-weight: 500;
 }
