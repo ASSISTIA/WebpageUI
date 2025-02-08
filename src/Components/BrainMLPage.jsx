@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Button, TextField, Typography, Box, Paper, InputAdornment } from '@mui/material';
-import ImageIcon from '@mui/icons-material/Image';
 import { ref, set } from "firebase/database";
-import { database } from '../firebase'; 
+import { database } from '../firebase';
 import PatientInfoForm from './PatientInfoForm';
+import './Brain.css';
 
 const BrainMLPage = () => {
     const [patientInfo, setPatientInfo] = useState(null);
@@ -19,13 +18,14 @@ const BrainMLPage = () => {
 
     const handlePatientInfoSubmit = async (info) => {
         try {
-            const dbRef = ref(database, "BrainTumor"); 
+            const dbRef = ref(database, "BrainTumor");
             await set(dbRef, {
                 name: info.name,
                 age: info.age,
+                email: info.email,
+                sex: info.sex
             });
-            setPatientInfo(info); 
-            console.log("Patient information saved successfully under 'BrainTumor'!");
+            setPatientInfo(info);
         } catch (error) {
             console.error("Error saving patient information:", error);
         }
@@ -57,8 +57,7 @@ const BrainMLPage = () => {
 
             const dbRef = ref(database, "BrainTumor");
             await set(dbRef, {
-                name: patientInfo.name,
-                age: patientInfo.age,
+                ...patientInfo,
                 result: data.prediction || data.class_name
             });
 
@@ -71,69 +70,87 @@ const BrainMLPage = () => {
     };
 
     return (
-        <Box sx={{ p: 2 }}>
-            <Typography variant="h5" component="h1" sx={{ mb: 2, fontWeight: 'bold' }}>
-                Brain ML Model Analysis
-            </Typography>
+        <div className="analysis-container">
+            <div className="analysis-header">
+                <h1>Brain ML Model Analysis</h1>
+                <p>Advanced neural network analysis for brain scan images</p>
+            </div>
+
             {!patientInfo ? (
                 <PatientInfoForm onInfoSubmit={handlePatientInfoSubmit} />
             ) : (
-                <Box sx={{ gap: 2, flexDirection: 'column' }}>
-                    <Paper elevation={3} sx={{ p: 2, mb: 2 }}>
-                        <Typography>Patient: {patientInfo.name}</Typography>
-                        <Typography>Age: {patientInfo.age}</Typography>
-                    </Paper>
-                    <TextField
-                        variant="outlined"
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageUpload}
-                        fullWidth
-                        InputLabelProps={{ shrink: true }}
-                        InputProps={{
-                            startAdornment: (
-                                <InputAdornment position="start">
-                                    <ImageIcon />
-                                </InputAdornment>
-                            ),
-                        }}
-                        sx={{ mb: 2 }}
-                    />
-                    {image && (
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={handleSubmit}
-                            disabled={loading}
-                            fullWidth
-                        >
-                            {loading ? 'Analyzing...' : 'Analyze Image'}
-                        </Button>
-                    )}
+                <div className="analysis-content">
+                    <div className="patient-card">
+                        <div className="patient-info-grid">
+                            <div className="patient-info-item">
+                                <div className="patient-info-label">Patient Name</div>
+                                <div className="patient-info-value">{patientInfo.name}</div>
+                            </div>
+                            <div className="patient-info-item">
+                                <div className="patient-info-label">Age</div>
+                                <div className="patient-info-value">{patientInfo.age} years</div>
+                            </div>
+                            <div className="patient-info-item">
+                                <div className="patient-info-label">Email</div>
+                                <div className="patient-info-value">{patientInfo.email}</div>
+                            </div>
+                            <div className="patient-info-item">
+                                <div className="patient-info-label">Sex</div>
+                                <div className="patient-info-value">{patientInfo.sex}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="upload-section">
+                        <h3>Upload Brain Scan Image</h3>
+                        <div className="file-input-container">
+                            <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImageUpload}
+                                className="file-input"
+                            />
+                        </div>
+                        {image && (
+                            <button
+                                className="analyze-button"
+                                onClick={handleSubmit}
+                                disabled={loading}
+                            >
+                                {loading ? 'Analyzing...' : 'Analyze Image'}
+                            </button>
+                        )}
+                    </div>
+
                     {error && (
-                        <Paper elevation={3} sx={{ p: 2, mt: 2, bgcolor: '#ffebee' }}>
-                            <Typography color="error">⚠️ {error}</Typography>
-                        </Paper>
+                        <div className="error-message">
+                            ⚠️ {error}
+                        </div>
                     )}
+
                     {result && (
-                        <Paper elevation={3} sx={{ p: 2, mt: 2 }}>
-                            <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                                Analysis Result:
-                            </Typography>
-                            <Typography>
-                                Classification: {result.prediction || result.class_name}
-                            </Typography>
-                            <Typography>
-                                Confidence: {((result.confidence || result.probability || 0) * 100).toFixed(2)}%
-                            </Typography>
-                            <Typography variant="caption" sx={{ display: 'block', mt: 1, color: 'text.secondary' }}>
-                                Raw response: {JSON.stringify(result)}
-                            </Typography>
-                        </Paper>
+                        <div className="result-card">
+                            <div className="result-header">Analysis Result</div>
+                            <div className="result-item">
+                                <div className="result-label">Classification</div>
+                                <div className="result-value">
+                                    {result.prediction || result.class_name}
+                                </div>
+                            </div>
+                            <div className="result-item">
+                                <div className="result-label">Confidence</div>
+                                <div className="result-value">
+                                    {((result.confidence || result.probability || 0) * 100).toFixed(2)}%
+                                </div>
+                            </div>
+                            <div className="raw-response">
+                                {JSON.stringify(result, null, 2)}
+                            </div>
+                        </div>
                     )}
-                </Box>
+                </div>
             )}
-        </Box>
+        </div>
     );
 };
 

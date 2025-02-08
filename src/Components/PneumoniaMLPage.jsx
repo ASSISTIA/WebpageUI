@@ -20,7 +20,9 @@ const PneumoniaMLPage = () => {
             const dbRef = ref(database, "Pneumonia"); // Overwrite existing data in "Pneumonia" category
             await set(dbRef, {
                 name: info.name,
-                age: info.age
+                age: info.age,
+                email: info.email,
+                sex: info.sex
             });
             setPatientInfo(info); // Update local state with patient info
             console.log("Patient information saved successfully under 'Pneumonia' category!");
@@ -43,6 +45,8 @@ const PneumoniaMLPage = () => {
                     <div className="patient-details">
                         <p>Patient: {patientInfo.name}</p>
                         <p>Age: {patientInfo.age}</p>
+                        <p>Email: {patientInfo.email}</p>
+                        <p>Sex: {patientInfo.sex}</p>
                     </div>
                     <div className="upload-section">
                         <label htmlFor="file-upload">Upload Chest X-Ray:</label>

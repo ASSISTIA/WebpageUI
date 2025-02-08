@@ -24,7 +24,8 @@
     margin-bottom: 5px;
 }
 
-.form-group input {
+.form-group input,
+.form-group select {
     width: 100%;
     padding: 12px;
     border: 1px solid #ccc;
@@ -33,9 +34,21 @@
     transition: border-color 0.3s;
 }
 
-.form-group input:focus {
+.form-group input:focus,
+.form-group select:focus {
     border-color: #009688; 
     outline: none;
+}
+
+.form-group select {
+    background-color: white;
+    cursor: pointer;
+}
+
+.error-message {
+    color: #d32f2f;
+    font-size: 0.875rem;
+    margin-top: 4px;
 }
 
 button {
@@ -53,4 +66,9 @@ button {
 
 button:hover {
     background-color: #00796b;
+}
+
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
 }
