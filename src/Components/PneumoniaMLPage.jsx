@@ -8,6 +8,8 @@ const PneumoniaMLPage = () => {
     const [patientInfo, setPatientInfo] = useState(null);
     const [image, setImage] = useState(null);
     const [result, setResult] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
@@ -31,8 +33,42 @@ const PneumoniaMLPage = () => {
         }
     };
 
-    const handleSubmit = () => {
-        setResult("Pneumonia analysis result would appear here");
+    const handleSubmit = async () => {
+        setLoading(true);
+        setError(null);
+
+        try {
+            if (!image) {
+                throw new Error('Please select an image');
+            }
+
+            const formData = new FormData();
+            formData.append('file', image);
+
+            const response = await fetch('http://localhost:10000/predict/pneumonia', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (!response.ok) {
+                throw new Error(`API error: ${response.status}`);
+            }
+
+            const data = await response.json();
+            setResult(data);
+
+            const dbRef = ref(database, "Pneumonia");
+            await set(dbRef, {
+                ...patientInfo,
+                result: data.prediction || data.class_name
+            });
+
+        } catch (err) {
+            setError(`Failed to analyze image: ${err.message}`);
+            console.error('Error:', err);
+        } finally {
+            setLoading(false);
+        }
     };
 
     return (
@@ -58,14 +94,19 @@ const PneumoniaMLPage = () => {
                         />
                     </div>
                     {image && (
-                        <button onClick={handleSubmit} className="analyze-btn">
-                            Analyze Image
+                        <button onClick={handleSubmit} className="analyze-btn" disabled={loading}>
+                            {loading ? 'Analyzing...' : 'Analyze Image'}
                         </button>
+                    )}
+                    {error && (
+                        <div className="error-message">
+                            ⚠️ {error}
+                        </div>
                     )}
                     {result && (
                         <div className="result-section">
                             <h3>Analysis Result:</h3>
-                            <p>{result}</p>
+                            <p>{result.prediction || result.class_name}</p>
                         </div>
                     )}
                 </div>
