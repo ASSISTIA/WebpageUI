@@ -13,6 +13,7 @@ import Home from "./pages/Home/Home";
 import QRPage from "./pages/QRPage/QRPage";
 import Assistant from "./pages/Assistant/Assistant";
 import HeartBeat from "./pages/HeartBeat/HeartBeat";
+import DiabetesPredictionPage from "./Components/DiabetesPredictionPage";
 
 const App = () => {
   return (
@@ -22,6 +23,7 @@ const App = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/brain" element={<BrainMLPage />} />
         <Route path="/pneumonia" element={<PneumoniaMLPage />} />
+        <Route path='/diabetes' element={<DiabetesPredictionPage />} />
         <Route path="/kidney" element={<CKDMLPage />} />
         <Route path="/qr/:type" element={<QRPage />} />
         <Route path="/assistant" element={<Assistant />} />

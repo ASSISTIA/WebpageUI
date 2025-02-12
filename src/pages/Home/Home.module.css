@@ -73,7 +73,7 @@
 }
 
 .moduleName {
-  color: white;
+  color: var(--accent-color);
   text-align: center;
   font-size: 3vw;
 }

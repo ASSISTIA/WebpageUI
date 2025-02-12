@@ -19,8 +19,8 @@ const QRPage = () => {
     ],
     pneumonia: [{ id: 1, name: "Chest X-Ray Image" }],
     diabetes: [
-      { id: 1, name: "Detection: ECG Reading" },
-      { id: 2, name: "Detection: Blood Pressure" },
+      { id: 1, name: "Blood Test" },
+      { id: 2, name: "Blood Pressure" },
     ],
   };
 

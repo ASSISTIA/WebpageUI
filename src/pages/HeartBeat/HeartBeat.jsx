@@ -33,10 +33,12 @@ const HeartBeat = () => {
 
   const MetricCard = ({ title, value, unit, icon }) => (
     <div className="metric-card">
-      <div className="metric-content">
-        <h3 className="metric-title">{title}</h3>
-        <div className="metric-value">
-          {icon}
+      <div className="metric-content" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0' }}>
+        <div style={{ fontSize: '1.5em', margin: '0 10px' }}>{icon}</div>
+        <h3 className="metric-title" style={{ margin: '0', flex: 1, textAlign: 'center' }}>{title.split(" ").map((word, index) => (
+          <span key={index}>{word}<br /></span>
+        ))}</h3>
+        <div className="metric-value" style={{ display: 'flex', alignItems: 'center', margin: '0 10px' }}>
           <span>{value}</span>
           <span className="metric-unit">{unit}</span>
         </div>
@@ -80,7 +82,7 @@ const HeartBeat = () => {
             <button onClick={() => navigate("/")} className="backButton">
               <FaHome />
             </button>
-            <h1>Vital Signs Monitor</h1>
+            <h1 className="title">Vital Monitor</h1>
           </div>
         </header>
 

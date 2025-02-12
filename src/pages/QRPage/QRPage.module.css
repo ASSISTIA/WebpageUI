@@ -40,7 +40,7 @@
   margin: 0;
   font-size: 4vw;
   font-weight: 700;
-  color: var(--primary-color);
+  color: var(--accent-color);
 }
 
 .small {
@@ -96,7 +96,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--background-light);
+  background-color: var(--secondary-color);
   color: var(--text-color);
   padding: 3%;
   margin: 2% 5%;
@@ -128,7 +128,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: rgba(255, 255, 255, 0.95);
+  background-color: var(--secondary-color);
   border-radius: 15px;
   box-shadow: 0 4px 6px var(--shadow-color);
 }
