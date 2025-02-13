@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import './PatientFormStyles.css';
+import React, { useState } from "react";
+import "./PatientFormStyles.css";
 
 const PatientInfoForm = ({ onInfoSubmit }) => {
   const [formData, setFormData] = useState({
-    name: '',
-    age: '',
-    sex: '',
-    email: ''
+    name: "",
+    age: "",
+    sex: "",
+    email: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -18,21 +18,21 @@ const PatientInfoForm = ({ onInfoSubmit }) => {
 
   const validateForm = () => {
     const newErrors = {};
-    
+
     if (!formData.name.trim()) {
-      newErrors.name = 'Name is required';
+      newErrors.name = "Name is required";
     }
-    
+
     if (!formData.age || formData.age < 0 || formData.age > 120) {
-      newErrors.age = 'Please enter a valid age (0-120)';
+      newErrors.age = "Please enter a valid age (0-120)";
     }
-    
+
     if (!formData.sex) {
-      newErrors.sex = 'Please select a sex';
+      newErrors.sex = "Please select a sex";
     }
-    
+
     if (!validateEmail(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
+      newErrors.email = "Please enter a valid email address";
     }
 
     setErrors(newErrors);
@@ -41,14 +41,14 @@ const PatientInfoForm = ({ onInfoSubmit }) => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
     if (errors[name]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        [name]: ''
+        [name]: "",
       }));
     }
   };
@@ -100,9 +100,9 @@ const PatientInfoForm = ({ onInfoSubmit }) => {
             value={formData.sex}
             onChange={handleChange}
           >
-            <option value="">Select sex</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
+            <option value="">Select Gender</option>
+            <option value="Female">Female</option>
+            <option value="Male">Male</option>
             <option value="other">Other</option>
           </select>
           {errors.sex && <div className="error-message">{errors.sex}</div>}
@@ -121,9 +121,7 @@ const PatientInfoForm = ({ onInfoSubmit }) => {
           {errors.email && <div className="error-message">{errors.email}</div>}
         </div>
 
-        <button type="submit">
-          Continue to Diagnosis
-        </button>
+        <button type="submit">Continue to Diagnosis</button>
       </form>
     </div>
   );
