@@ -4,6 +4,8 @@ import { database } from '../firebase';
 import PatientInfoForm from './PatientInfoForm';
 import './CKDMLStyles.css';
 import axios from 'axios';
+import emailjs from "emailjs-com";
+
 
 const DiabetesPredictionPage = () => {
     const [patientInfo, setPatientInfo] = useState(null);
@@ -78,6 +80,24 @@ const DiabetesPredictionPage = () => {
                 result: response.data.prediction,
                 confidence: response.data.confidence
             });
+            const emailParams = {
+                name: patientInfo.name,
+                age: patientInfo.age,
+                sex: patientInfo.sex,
+                email: patientInfo.email,
+                detection_type: "Diabetes",
+                result: result.prediction,
+                additional_details: `Confidence: ${(result.confidence * 100).toFixed(2)}%`
+            };
+            
+            emailjs.send('service_w6gnwr2', 'template_x1jsmbb', emailParams, '-zYnQ129XMEcAUHA3')
+                .then((emailResponse) => {
+                    console.log('Diabetes Email sent successfully!', emailResponse.status, emailResponse.text);
+                })
+                .catch((emailError) => {
+                    console.error('Failed to send Diabetes result email.', emailError);
+                });
+            
 
         } catch (err) {
             setError(`Failed to get prediction: ${err.message}`);

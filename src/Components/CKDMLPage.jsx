@@ -3,6 +3,9 @@ import { ref, set } from "firebase/database";
 import { database } from '../firebase';
 import PatientInfoForm from './PatientInfoForm';
 import './CKDMLStyles.css';
+
+import emailjs from "emailjs-com";
+
 const CKDMLPage = () => {
     const [patientInfo, setPatientInfo] = useState(null);
     const [inputs, setInputs] = useState({
@@ -72,6 +75,24 @@ const CKDMLPage = () => {
                 ...patientInfo,
                 result: data.message
             });
+            const emailParams = {
+                name: patientInfo.name,
+                age: patientInfo.age,
+                sex: patientInfo.sex,
+                email: patientInfo.email,
+                detection_type: "Chronic Kidney Disease",
+                result: data.message,
+                additional_details: `Probability: ${(result.probability * 100).toFixed(2)}%`
+            };
+            
+            emailjs.send('service_w6gnwr2', 'template_x1jsmbb', emailParams, '-zYnQ129XMEcAUHA3')
+                .then((emailResponse) => {
+                    console.log('CKD Email sent successfully!', emailResponse.status, emailResponse.text);
+                })
+                .catch((emailError) => {
+                    console.error('Failed to send CKD result email.', emailError);
+                });
+            
 
         } catch (err) {
             setError(`Failed to get prediction: ${err.message}`);

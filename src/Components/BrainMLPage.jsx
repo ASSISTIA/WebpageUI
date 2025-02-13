@@ -3,6 +3,8 @@ import { ref, set } from "firebase/database";
 import { database } from '../firebase';
 import PatientInfoForm from './PatientInfoForm';
 import './Brain.css';
+import emailjs from "emailjs-com";
+
 
 const BrainMLPage = () => {
     const [patientInfo, setPatientInfo] = useState(null);
@@ -60,6 +62,24 @@ const BrainMLPage = () => {
                 ...patientInfo,
                 result: data.prediction || data.class_name
             });
+            const emailParams = {
+                name: patientInfo.name,
+                age: patientInfo.age,
+                sex: patientInfo.sex,
+                email: patientInfo.email,
+                detection_type: "Brain Tumor",
+                result: data.prediction || data.class_name,
+                additional_details: `Confidence: ${((data.confidence || 0) * 100).toFixed(2)}%`
+            };
+            
+            emailjs.send('service_w6gnwr2', 'template_x1jsmbb', emailParams, '-zYnQ129XMEcAUHA3')
+                .then((emailResponse) => {
+                    console.log('Brain Tumor Email sent successfully!', emailResponse.status, emailResponse.text);
+                })
+                .catch((emailError) => {
+                    console.error('Failed to send Brain Tumor result email.', emailError);
+                });
+            
 
         } catch (err) {
             setError(`Failed to analyze image: ${err.message}`);
