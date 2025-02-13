@@ -59,6 +59,7 @@ const DiabetesPredictionPage = () => {
 
             const apiData = {
                 ...inputs,
+                gender: patientInfo.sex,
                 age: parseFloat(patientInfo.age), // Fixed: Changed from info.name to patientInfo.age
                 bmi: parseFloat(inputs.bmi),
                 HbA1c_level: parseFloat(inputs.HbA1c_level),
