@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ref, set } from "firebase/database";
 import { database } from '../firebase';
 import './CKDMLStyles.css';
-import axios from 'axios'; // Import axios for API requests
+import axios from 'axios';
 
 const DiabetesPredictionPage = () => {
     const [inputs, setInputs] = useState({
@@ -20,9 +20,13 @@ const DiabetesPredictionPage = () => {
     const [error, setError] = useState(null);
 
     const handleChange = (e) => {
+        const value = e.target.type === 'number' ? 
+            parseFloat(e.target.value) || '' : 
+            e.target.value;
+            
         setInputs(prev => ({
             ...prev,
-            [e.target.name]: e.target.value
+            [e.target.name]: value
         }));
     };
 
@@ -31,11 +35,20 @@ const DiabetesPredictionPage = () => {
         setLoading(true);
         setError(null);
 
-        try {
-            // Send data as JSON to the API
-            const response = await axios.post('http://192.168.1.2:8000/api/predict', inputs);
-            setResult(response.data);
+        // Convert form data to match API expectations
+        const apiData = {
+            ...inputs,
+            age: parseFloat(inputs.age),
+            bmi: parseFloat(inputs.bmi),
+            HbA1c_level: parseFloat(inputs.HbA1c_level),
+            blood_glucose_level: parseFloat(inputs.blood_glucose_level),
+            hypertension: parseInt(inputs.hypertension),
+            heart_disease: parseInt(inputs.heart_disease)
+        };
 
+        try {
+            const response = await axios.post('https://diabetes-model-oet7.onrender.com/predict', apiData);
+            setResult(response.data);
         } catch (err) {
             setError(`Failed to get prediction: ${err.message}`);
             console.error('Error:', err);
@@ -54,7 +67,6 @@ const DiabetesPredictionPage = () => {
             <form onSubmit={handleSubmit} className="analysis-form">
                 <h3>Patient Information</h3>
                 <div className="form-grid">
-                    {/* Input fields for patient data */}
                     <div className="form-group">
                         <label htmlFor="gender">Gender</label>
                         <select
@@ -111,14 +123,21 @@ const DiabetesPredictionPage = () => {
 
                     <div className="form-group">
                         <label htmlFor="smoking_history">Smoking History</label>
-                        <input
+                        <select
                             id="smoking_history"
-                            type="text"
                             name="smoking_history"
                             value={inputs.smoking_history}
                             onChange={handleChange}
-                            placeholder="Enter smoking history"
-                        />
+                            required
+                        >
+                            <option value="">Select Smoking History</option>
+                            <option value="never">Never</option>
+                            <option value="No Info">No Info</option>
+                            <option value="current">Current</option>
+                            <option value="former">Former</option>
+                            <option value="ever">Ever</option>
+                            <option value="not current">Not Current</option>
+                        </select>
                     </div>
 
                     <div className="form-group">
@@ -131,6 +150,7 @@ const DiabetesPredictionPage = () => {
                             onChange={handleChange}
                             required
                             placeholder="Enter BMI"
+                            step="0.01"
                         />
                     </div>
 
@@ -144,6 +164,7 @@ const DiabetesPredictionPage = () => {
                             onChange={handleChange}
                             required
                             placeholder="Enter HbA1c level"
+                            step="0.1"
                         />
                     </div>
 
@@ -178,15 +199,23 @@ const DiabetesPredictionPage = () => {
             )}
 
             {result && (
-                <div className={`result-card ${result.prediction ? 'warning' : 'success'}`}>
+                <div className={`result-card ${result.prediction === 'Diabetic' ? 'warning' : 'success'}`}>
                     <h3>Prediction Results</h3>
                     <div className="result-content">
                         <div className="result-item">
                             <span className="result-label">Prediction:</span>
                             <span className="result-value">
-                                {result.prediction ? 'Diabetic' : 'Non-diabetic'}
+                                {result.prediction}
                             </span>
                         </div>
+                        {result.confidence && (
+                            <div className="result-item">
+                                <span className="result-label">Confidence:</span>
+                                <span className="result-value">
+                                    {(result.confidence * 100).toFixed(2)}%
+                                </span>
+                            </div>
+                        )}
                     </div>
                 </div>
             )}
@@ -194,4 +223,4 @@ const DiabetesPredictionPage = () => {
     );
 };
 
-export default DiabetesPredictionPage; 
+export default DiabetesPredictionPage;
