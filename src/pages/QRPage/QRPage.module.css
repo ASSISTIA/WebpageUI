@@ -4,9 +4,9 @@
   display: flex;
   flex-direction: column;
   font-family: 'Roboto', 'Arial', sans-serif;
-  padding-left: 5%;
-  padding-right: 5%;
-  padding-bottom: 5%;
+  padding-left: 2%;
+  padding-right: 2%;
+  padding-bottom: 2%;
   min-height: 100vh;
   box-sizing: border-box;
   touch-action: manipulation;
@@ -22,7 +22,7 @@
   overflow: hidden;
   background-color: rgba(255, 255, 255, 0.95);
   border-radius: 15px;
-  margin: 15px 0;
+  margin: 10px 0;
   box-shadow: 0 2px 4px var(--shadow-color);
 }
 
@@ -51,26 +51,31 @@
 }
 
 .backButton {
-  width: 10%;
-  height: 10%;
-  background-color: transparent;
-  font-size: 4.5vw;
-  color: var(--primary-color);
-  padding: 3%;
+  width: clamp(28px, 10vw, 80px);
+  height: clamp(28px, 10vh, 80px);
+  background-color: rgba(255, 255, 255, 0.1);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  color: #4886d0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: none;
   cursor: pointer;
-  transition: color 0.2s ease;
+  transition: all 0.3s ease;
+  border-radius: 20%;
+  margin: 0.1rem;
 }
 
 .backButton:hover {
-  color: var(--accent-color);
+  background-color: rgba(72, 134, 208, 0.2);
+  transform: translateY(-2px);
 }
 
 .contentWrapper {
   display: flex;
   flex-grow: 0;
   overflow: hidden;
-  gap: 15px;
+  gap: 10px;
 }
 
 .testList {

@@ -82,7 +82,7 @@ const QRPage = () => {
           ))}
         </div>
 
-        <div className={styles.space}></div>
+        
 
         <div className={styles.qrSection}>
           {isLoading ? (
