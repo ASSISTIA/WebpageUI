@@ -30,8 +30,12 @@ const QRPage = () => {
         return 'Brain Tumor';
       case 'kidney':
         return 'Chronic Kidney Disease';
+      case 'pneumonia':
+        return 'Pneumonia';
+      case 'diabetes':
+        return 'Diabetes';
       default:
-        return type;
+        return type ? type.charAt(0).toUpperCase() + type.slice(1) : '';
     }
   }, []);
 
@@ -45,7 +49,9 @@ const QRPage = () => {
       setError(null);
 
       const baseUrl = window.location.origin;
-      const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${baseUrl}/${type}&ecc=M`;
+      // Adjust QR code size dynamically based on screen width
+      const size = Math.min(window.innerWidth * 0.25, 250);
+      const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${baseUrl}/${type}&ecc=M`;
 
       setQrUrl(qrCodeUrl);
       setIsLoading(false);
@@ -57,6 +63,14 @@ const QRPage = () => {
 
   useEffect(() => {
     generateQRCode();
+    
+    // Regenerate QR on window resize for optimal size
+    const handleResize = () => {
+      generateQRCode();
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, [generateQRCode]);
 
   const handleBack = () => {
@@ -69,7 +83,11 @@ const QRPage = () => {
         <button onClick={handleBack} className={styles.backButton}>
           <FaHome />
         </button>
-        <h1><span className={styles.big}>{displayType.charAt(0).toUpperCase()}</span><span className={styles.small}>{displayType.slice(1).toUpperCase()}</span> <span className={styles.small}>ANALYSIS</span></h1>
+        <h1 className={styles.titleText}>
+          <span className={styles.bigLetter}>{displayType.charAt(0)}</span>
+          <span className={styles.smallText}>{displayType.slice(1)}</span> 
+          <span className={styles.analysisText}>ANALYSIS</span>
+        </h1>
       </div>
 
       <div className={styles.contentWrapper}>
@@ -80,20 +98,21 @@ const QRPage = () => {
               <span>{test.name}</span>
             </div>
           ))}
+          {(!testDetails[type] || testDetails[type]?.length === 0) && (
+            <div className={styles.noData}>No required values available</div>
+          )}
         </div>
-
-        
 
         <div className={styles.qrSection}>
           {isLoading ? (
-            <div>Generating QR...</div>
+            <div className={styles.loadingText}>Generating QR...</div>
           ) : error ? (
-            <div>{error}</div>
+            <div className={styles.errorText}>{error}</div>
           ) : (
             <img src={qrUrl} alt="QR Code" className={styles.qrCode} />
           )}
           <div className={styles.footer}>
-            <p>Scan QR </p>
+            <p>Scan QR</p>
           </div>
         </div>
       </div>

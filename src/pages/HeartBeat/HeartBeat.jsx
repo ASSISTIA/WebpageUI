@@ -8,14 +8,14 @@ const HeartBeat = () => {
   const [vitals, setVitals] = useState({
     heartbeat: 78,
     spo2: 98,
-    glucose: 98
+    glucose: 98,
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   const fetchVitals = async () => {
     try {
-      const response = await fetch("http://172.16.14.66:5001/data");
+      const response = await fetch("http://192.168.1.2:5001/data");
       const data = await response.json();
       setVitals(data);
       setLoading(false);
@@ -33,12 +33,17 @@ const HeartBeat = () => {
 
   const MetricCard = ({ title, value, unit, icon }) => (
     <div className="metric-card">
-      <div className="metric-content" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '10px 0' }}>
-        <div style={{ fontSize: '1.5em', margin: '0 10px' }}>{icon}</div>
-        <h3 className="metric-title" style={{ margin: '0', flex: 1, textAlign: 'center' }}>{title.split(" ").map((word, index) => (
-          <span key={index}>{word}<br /></span>
-        ))}</h3>
-        <div className="metric-value" style={{ display: 'flex', alignItems: 'center', margin: '0 10px' }}>
+      <div className="metric-content">
+        <div className="metric-icon">{icon}</div>
+        <h3 className="metric-title">
+          {title.split(" ").map((word, index) => (
+            <span key={index}>
+              {word}
+              <br />
+            </span>
+          ))}
+        </h3>
+        <div className="metric-value">
           <span>{value}</span>
           <span className="metric-unit">{unit}</span>
         </div>
@@ -71,6 +76,7 @@ const HeartBeat = () => {
           </div>
         </div>
       </div>
+      
     );
   }
 

@@ -1,12 +1,10 @@
-/* QRPage.module.css */
+/* QRPage.module.css - Optimized for all screen sizes including 3.5 inch */
 .touchContainer {
   background: linear-gradient(135deg, var(--primary-color), #2196F3);
   display: flex;
   flex-direction: column;
   font-family: 'Roboto', 'Arial', sans-serif;
-  padding-left: 2%;
-  padding-right: 2%;
-  padding-bottom: 2%;
+  padding: 2%;
   min-height: 100vh;
   box-sizing: border-box;
   touch-action: manipulation;
@@ -20,41 +18,50 @@
   align-items: center;
   justify-content: flex-start;
   overflow: hidden;
+  width: 97%;
   background-color: rgba(255, 255, 255, 0.95);
-  border-radius: 15px;
-  margin: 10px 0;
+  border-radius: 10px;
+  margin-bottom: 10px;
   box-shadow: 0 2px 4px var(--shadow-color);
+  padding: 0.5rem 0;
 }
 
-.pageTitle h1 {
+.titleText {
   color: var(--text-color);
-  font-size: 4.5vw;
-  padding: 1%;
+  padding: 0;
   margin: 0;
   white-space: nowrap;
-  width: 90%;
-  height: 10%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 75%;
 }
 
-.big {
-  margin: 0;
-  font-size: 4vw;
+.bigLetter {
+  font-size: clamp(1.2rem, 4vw, 2rem);
   font-weight: 700;
   color: var(--accent-color);
 }
 
-.small {
-  margin: 0;
-  font-size: 2.5vw;
+.smallText {
+  font-size: clamp(0.8rem, 2.5vw, 1.5rem);
   font-weight: 600;
   color: var(--accent-color);
 }
 
+.analysisText {
+  font-size: clamp(0.7rem, 2.5vw, 1.4rem);
+  font-weight: 600;
+  color: var(--accent-color);
+  margin-left: 0.3rem;
+}
+
 .backButton {
-  width: clamp(28px, 10vw, 80px);
-  height: clamp(28px, 10vh, 80px);
+  min-width: 28px;
+  min-height: 28px;
+  width: clamp(28px, 8vw, 50px);
+  height: clamp(28px, 8vw, 50px);
   background-color: rgba(255, 255, 255, 0.1);
-  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-size: clamp(1rem, 3vw, 1.5rem);
   color: #4886d0;
   display: flex;
   align-items: center;
@@ -62,9 +69,8 @@
   border: none;
   cursor: pointer;
   transition: all 0.3s ease;
-  border-radius: 20%;
-  margin: 0.1rem;
-  margin-left: 1rem;
+  border-radius: 50%;
+  margin: 0 0.7rem;
 }
 
 .backButton:hover {
@@ -74,26 +80,58 @@
 
 .contentWrapper {
   display: flex;
-  flex-grow: 0;
+  flex: 1;
+  gap: 8px;
+  flex-direction: row;
   overflow: hidden;
-  gap: 10px;
+}
+
+@media (max-width: 480px) {
+  /* For very small screens like 3.5-inch (iPhone 4) */
+  .contentWrapper {
+    flex-direction: column;
+  }
+  
+  .testList, .qrSection {
+    width: 100% !important;
+  }
+  
+  .qrCode {
+    width: 120px !important;
+    height: auto !important;
+  }
+  
+  .testItem {
+    font-size: 12px !important;
+    padding: 8px !important;
+  }
+  
+  .testList h2 {
+    font-size: 16px !important;
+    margin: 8px 0 !important;
+  }
+  
+  .footer p {
+    font-size: 12px !important;
+  }
 }
 
 .testList {
-  width: 60%;
-  min-height: 30%;
+  width: 50%;
+  flex-shrink: 0;
   padding: 2%;
   overflow-y: auto;
   background-color: rgba(255, 255, 255, 0.95);
   border: none;
-  border-radius: 15px;
+  border-radius: 10px;
   box-shadow: 0 4px 6px var(--shadow-color);
+  max-height: 75vh;
 }
 
 .testList h2 {
   text-align: center;
   color: var(--primary-color);
-  font-size: 4vw;
+  font-size: clamp(1rem, 4vw, 1.8rem);
   margin: 3% 0;
   font-weight: 600;
 }
@@ -104,10 +142,10 @@
   align-items: center;
   background-color: var(--secondary-color);
   color: var(--text-color);
-  padding: 3%;
+  padding: clamp(8px, 3%, 15px);
   margin: 2% 5%;
   border-radius: 8px;
-  font-size: 3vw;
+  font-size: clamp(0.75rem, 3vw, 1.1rem);
   box-shadow: 0 2px 4px var(--shadow-color);
   transition: transform 0.2s ease;
 }
@@ -117,49 +155,56 @@
   background-color: rgba(76, 175, 80, 0.1);
 }
 
-.testDuration {
-  color: var(--primary-color);
-  font-weight: 500;
-}
-
-.space {
-  width:1%;
+.noData {
+  text-align: center;
+  padding: 15px;
+  color: var(--text-color);
+  font-style: italic;
+  font-size: clamp(0.75rem, 3vw, 1rem);
 }
 
 .qrSection {
-  width: 30%;
-  height: 40%;
+  width: 37%;
+  flex-shrink: 0;
   padding: 2%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: var(--secondary-color);
-  border-radius: 15px;
+  border-radius: 10px;
   box-shadow: 0 4px 6px var(--shadow-color);
 }
 
-.qrSection p {
-  margin-top: 1px;
-  font-size: 3vw;
+.loadingText, .errorText {
+  text-align: center;
+  padding: 10px;
+  font-size: clamp(0.7rem, 3vw, 1rem);
   color: var(--primary-color);
-  font-weight: 500;
+}
+
+.errorText {
+  color: #d32f2f;
 }
 
 .qrCode {
-  width: 25vw;
+  width: clamp(100px, 25vw, 200px);
   height: auto;
   object-fit: contain;
-  padding: 10px;
+  padding: 5px;
   background-color: white;
-  border-radius: 10px;
+  border-radius: 8px;
   box-shadow: 0 2px 4px var(--shadow-color);
 }
 
 .footer {
-  color: var(--primary-color);
+  margin-top: 8px;
   text-align: center;
-  font-size: 2vw;
-  margin-top: 10px;
+}
+
+.footer p {
+  margin: 5px 0 0;
+  font-size: clamp(0.7rem, 2.5vw, 1rem);
+  color: var(--primary-color);
   font-weight: 500;
 }
